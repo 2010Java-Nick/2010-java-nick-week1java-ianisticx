@@ -309,6 +309,13 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
+		String delimeter = "[ ]";
+		String [] tokens = string.split(delimeter);
+		
+		for(String s: tokens)
+		{
+			
+		}
 		return null;
 	}
 
@@ -577,7 +584,32 @@ public class EvaluationService {
 	 */
 	public boolean isPangram(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		
+		String lower = string.toLowerCase();
+		Boolean [] check = new Boolean[26];
+		int index =0;
+		
+		for(int i=0;i < string.length();i++)
+		{
+			if('a'<=lower.charAt(i) && lower.charAt(i)<= 'z')
+			index = lower.charAt(i)- 'a';
+			
+			check[index] = true;
+			
+		}
+		for (int i = 0;i<=25;i++)
+		{
+			if(check[i]== false)
+			{
+				return (false);
+			}
+			
+			
+		}
+		
+		
+		
+		return true;
 	}
 
 	/**
@@ -590,6 +622,7 @@ public class EvaluationService {
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
+		
 		return null;
 	}
 
