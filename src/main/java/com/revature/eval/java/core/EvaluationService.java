@@ -31,7 +31,19 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		phrase = phrase.toUpperCase();
+		String acronym = "";
+		String delimiter = "[ , -]";
+		String [] tokens =phrase.split(delimiter);
+		for(String s:tokens)
+		{
+			char c = s.charAt(0);
+			
+			
+			acronym +=c;
+		}
+		
+		return acronym;
 	}
 
 	/**
@@ -127,7 +139,115 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		String upper = string.toUpperCase();
+		int score=0;
+		char [] batch1Array = {'A','E', 'I', 'O', 'U', 'L', 'N', 'R', 'S', 'T'};
+		String batch1 = "AEIOULNRST";
+		char [] batch2Array = {'D', 'G'};
+		char [] batch3Array= {'C','M', 'P'};
+		char [] batch4Array = {'F', 'H', 'V', 'W', 'Y'};
+		String batch4 = "FHVWY";
+		char [] batch5Array = {'K'};
+		char [] batch8Array = {'J','X'};
+		char [] batch10Array = {'Q','Z'};
+		String batch10 ="QZ";
+		
+		for(int i =0;i<string.length();i++)
+		{
+			for (int j =0;j<batch1.length();j++)
+			{
+				if(upper.charAt(i)== batch1.charAt(j))
+				{
+					j++;
+					score+=1;
+				}
+				else {
+					j++;
+				}
+				
+			}                             
+			
+			for (int j =0;j<batch2Array.length;j++)
+			{
+				if(upper.charAt(i)== batch2Array[j])
+				{
+					j++;
+					score+=2;
+				}
+				else {
+					j++;
+				}
+				
+			}
+			for (int j =0;j<batch3Array.length;j++)
+			{
+				if(upper.charAt(i)== batch3Array[j])
+				{
+					j++;
+					score+=3;
+				}
+				else {
+					j++;
+				}
+				
+			}
+			for (int j =0;j<batch4Array.length;j++)
+			{
+				if(upper.charAt(i)== batch4.charAt(j))
+				{
+					j++;
+					score+=4;
+				}
+				else {
+					j++;
+				}
+				
+			}
+			for (int j =0;j<batch5Array.length;j++)
+			{
+				if(upper.charAt(i)== batch5Array[j])
+				{
+					j++;
+					score+=5;
+				}
+				else {
+					j++;
+				}
+				
+			}
+			
+			for (int j =0;j<batch8Array.length;j++)
+			{
+				if(upper.charAt(i)== batch8Array[j])
+				{
+					j++;
+					score+=8;
+				}
+				else {
+					j++;
+				}
+				
+			}
+			for (int j =0;j<batch10.length();j++)
+			{
+				if(upper.charAt(i)== batch10.charAt(j))
+				{
+					j++;
+					score+=10;
+				}
+				else {
+					j++;
+				}
+				
+			}
+			i++;
+			
+		}
+		
+		
+		
+		
+		return score;
 	}
 
 	/**
@@ -163,7 +283,19 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String delimiter = "[ - ( ) .]+";
+		String output= "";
+		String [] tokens =string.split(delimiter);
+		for (String s:tokens) 
+		{
+			output += s;
+		}
+		if (output.length()>10)
+		{
+			throw new IllegalArgumentException();
+		}
+		
+		return output;
 	}
 
 	/**
@@ -230,6 +362,7 @@ public class EvaluationService {
 
 		public List<T> getSortedList() {
 			return sortedList;
+			
 		}
 
 		public void setSortedList(List<T> sortedList) {
@@ -548,6 +681,7 @@ public class EvaluationService {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
+		
 		return 0;
 	}
 

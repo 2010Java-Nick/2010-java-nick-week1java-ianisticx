@@ -110,7 +110,7 @@ public class EvaluationServiceTest {
 	@Test
 	public void verySmallTrianglesCanBeIsosceles() {
 		EvaluationService.Triangle triangle = new EvaluationService.Triangle(0.5, 0.4, 0.5);
-		assertTrue(triangle.isIsosceles());
+		assertTrue(triangle.isIsosceles());      
 	}
 
 	@Test
