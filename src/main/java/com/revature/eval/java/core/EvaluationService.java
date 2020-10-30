@@ -547,13 +547,23 @@ public class EvaluationService {
 			// TODO Write an implementation for this method declaration
 			char [] chars = string.toCharArray();
 			String string1,string2;
+			StringBuilder sb = new StringBuilder();
 			//string1 =string1.length();
-			for(int i=0;i<=string.length();i++)
+			for(int i=0;i<string.length();i++)
 			{
-				//string1 = string1.charAt(this.key);
+				char c  = string.charAt(i);
+				if(c >='A' && c <= 'Z') 
+				{
+					sb.append((char) ('A' +((c - 'A')+13)%key));
+				}
+				else if(c >='a' && c <='z') 
+				{
+					sb.append((char) ('a' +((c - 'a')+13)%key));
+				}
+				else
+					sb.append(c);
 			}
-			
-			return null;
+			return sb.toString();
 		}
 
 	}
@@ -784,8 +794,8 @@ public class EvaluationService {
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
 		
-		//given.plus(1000000000)
-		return null;
+		
+		return given.plus(1_000_000_000, null);
 	}
 
 	/**
@@ -803,7 +813,19 @@ public class EvaluationService {
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int sum =0;
+		for(int a=1;a<i;a++)
+		{
+			for(int b:set) 
+			{
+				if(a%b==0)
+				{
+					sum+=a;
+					break;
+				}
+			}
+		}
+		return sum;
 	}
 
 	/**
@@ -902,4 +924,6 @@ public class EvaluationService {
 		return result;
 	}
 
-}
+	}
+	
+
