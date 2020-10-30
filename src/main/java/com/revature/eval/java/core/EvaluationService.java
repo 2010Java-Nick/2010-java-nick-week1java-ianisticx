@@ -1,5 +1,7 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
@@ -286,9 +288,11 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		String delimiter = "[ - ( ).]+";
+		String delimiter = "[ - ( ) .]+";
 		String output= "";
-		String [] tokens =string.split(delimiter);
+		String [] tokens =string.replaceAll(" ","").split(delimiter);
+		
+		
 		for (String s:tokens) 
 		{
 			output += s;
@@ -297,6 +301,7 @@ public class EvaluationService {
 		{
 			throw new IllegalArgumentException();
 		}
+		
 		
 		return output;
 	}
@@ -313,7 +318,7 @@ public class EvaluationService {
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
 		Map<String,Integer> map = new HashMap<>();
-		String delimeter = "[ ]";
+		String delimeter = "[  \\s , - ]+";
 		
 		String [] tokens = string.split(delimeter);
 		
@@ -433,14 +438,62 @@ public class EvaluationService {
 	 */
 	public String toPigLatin(String string) {
 		// TODO Write an implementation for this method declaration
-		char [] c = string.toCharArray();
+		//char [] c = string.toCharArray();
 		/*
 		 * static boolean vowel(char v) {
 		 * 
 		 * (v=='a'|| v=='e'||v=='i'|| v=='o' || v=='u'); }
 		 */
+		StringBuilder sb = new StringBuilder("");
+		String delimiter = "[ ]";
+		String [] token = string.split(delimiter);
+		String translate ="";
+		for (String s:token)
+		{
+			String vowelCheck =s.substring(0,1);
+			String consonants = s.substring(0,2);
+			String tripleconst = s.substring(0,3);
+			if(vowelCheck.matches("[aeiou]"))
+			{
+				sb.append(s);
+				sb.append("ay");
+				sb.append(" ");
+			}
+			
+			else if(consonants.matches("sh|th|qu|ch"))
+			{
+				String cons = s.substring(2,s.length());
+				sb.append(cons);
+				sb.append(consonants);
+				sb.append("ay");
+				sb.append(" ");
+				
+			}
+			
+			else if(tripleconst.matches("sch"))
+			{
+				String cons = s.substring(3,s.length());
+				sb.append(cons);
+				sb.append(tripleconst);
+				sb.append("ay");
+				sb.append(" ");
+				
+			}
+			else
+			{
+				String word = s.substring(1,s.length());
+				sb.append(word);
+				sb.append(vowelCheck);
+				sb.append("ay");
+				sb.append(" ");
+				
+						
+			}
+			
+		}
+		translate = sb.toString();
 					
-		return null;
+		return translate.trim();
 	}
 
 	/**
@@ -583,42 +636,32 @@ public class EvaluationService {
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
 		int max =i;
-		
+		int num=1;
+		int count =0;
+		int j;
 		 List <Integer> result = new ArrayList<Integer>();
 		boolean [] prime = new boolean[max];
 		if(i==0)
 			throw new IllegalArgumentException();
 		if(i==1)
 			return 2;
-		
-		for (int j=0;j<i;j++)
+		while(count<i)
 		{
-			prime[j] = true;
-			
-		}
-		for(int a=2; a*a< max;a++)
-		{
-			if(prime[a]==true)
+			num+=1;
+			for(j=2;j<=num;j++)
 			{
-				for(int b=a*a;b<max;b=b+a)
-				{
-					prime[b]= false;
-					
-				}
+				if(num%j==0)
+					break;
 				
 			}
-			for(int p=2;p<i;p++)
+			if(j==num)
 			{
-				if(prime[p]==true)
-					result.add(p);
-				
-				
+				count+=1;
 			}
-			
 		}
 		
 		
-		return result.get(i);
+		return num;
 	}
 
 	/**
@@ -655,12 +698,18 @@ public class EvaluationService {
 		 */
 		public static String encode(String string) {
 			// TODO Write an implementation for this method declaration
+			string = string.toLowerCase();
 			String token = "";
+			
 			for(char c:string.toCharArray())
 			{
 				if(Character.isLetter(c))
 				{
 					token +=(char)('a'+('z'-c));
+				}
+				else if(Character.isLetterOrDigit(c))
+				{
+					token +=c;
 				}
 				else
 				{
@@ -678,7 +727,26 @@ public class EvaluationService {
 		 */
 		public static String decode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			string = string.toLowerCase();
+			String token = "";
+			
+			for(char c:string.toCharArray())
+			{
+				if(Character.isLetter(c))
+				{
+					token +=(char)('z'+('a'-c));
+				}
+				else if(Character.isLetterOrDigit(c))
+				{
+					token +=c;
+				}
+				else
+				{
+					token +=c;
+				}
+			}
+			return token;
+		
 		}
 	}
 
@@ -759,6 +827,8 @@ public class EvaluationService {
 		String lower = string.toLowerCase();
 		Boolean [] check = new Boolean[26];
 		int index =0;
+		if(string.length()==0)
+			return false;
 		
 		for(int i=0;i < string.length();i++)
 		{
@@ -772,7 +842,7 @@ public class EvaluationService {
 		{
 			if(check[i]== false)
 			{
-				return (false);
+				return false;
 			}
 			
 			
@@ -794,8 +864,16 @@ public class EvaluationService {
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
 		
+		if(given.isSupported(ChronoUnit.SECONDS))
+		{
+			return given.plus(1_000_000_000, ChronoUnit.SECONDS);
+		}
+		else {
+			LocalDate date = LocalDate.from(given);
+			LocalDateTime datetime = date.atStartOfDay();
+			return datetime.plus(1_000_000_000, ChronoUnit.SECONDS);
+		}
 		
-		return given.plus(1_000_000_000, null);
 	}
 
 	/**
@@ -898,28 +976,29 @@ public class EvaluationService {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
-		String delimiter = "[ ]";
-		int val1,val2;
+		//String delimiter = "[ \\s  ]";
 		
 		int result=0;
-		String [] tokens = string.split(delimiter);
+		String [] tokens = string.replaceAll("[?]", "").split("\\s+");
+		String operator = tokens[3];
+		int val1 = Integer.parseInt(tokens[2]);
 		//for(String c:tokens)
-		if(string.contains("plus"))
+		switch(operator)
 		{
-			val1 = Integer.valueOf(tokens[2]);
-			val2 = Integer.valueOf(tokens[4]);
-			
-			result += val1 - val2;
-			
+		case "plus":
+			result = val1 + Integer.parseInt(tokens[4]);
+			break;
+		case "minus":
+			result = val1 - Integer.parseInt(tokens[4]);
+			break;
+		case "multiplied":
+			result = val1 * Integer.parseInt(tokens[5]);
+			break;
+		case "divided":
+			result = val1 / Integer.parseInt(tokens[5]);
+			break;	
 		}
-		 if(string.contains("minus"))
-		{
-			val1 = Integer.valueOf(tokens[2]);
-			val2 = Integer.valueOf(tokens[4]);
-			
-			result += val1 - val2;
-			
-		}
+		
 		
 		return result;
 	}
