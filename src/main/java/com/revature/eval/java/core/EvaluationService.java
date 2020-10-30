@@ -1,9 +1,12 @@
 package com.revature.eval.java.core;
 
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.math.*;
 public class EvaluationService {
 
 	/**
@@ -33,7 +36,7 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		phrase = phrase.toUpperCase();
 		String acronym = "";
-		String delimiter = "[ , -]";
+		String delimiter = "[  , -]+";
 		String [] tokens =phrase.split(delimiter);
 		for(String s:tokens)
 		{
@@ -283,7 +286,7 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		String delimiter = "[ - ( ) .]+";
+		String delimiter = "[ - ( ).]+";
 		String output= "";
 		String [] tokens =string.split(delimiter);
 		for (String s:tokens) 
@@ -309,14 +312,22 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
+		Map<String,Integer> map = new HashMap<>();
 		String delimeter = "[ ]";
+		
 		String [] tokens = string.split(delimeter);
 		
 		for(String s: tokens)
 		{
-			
+			String key = s.toLowerCase();
+			if(map.containsKey(key)) {
+				int item = map.get(key);
+				map.put(key, ++item);
+			}
+			else
+				map.put(key,1);
 		}
-		return null;
+		return map;
 	}
 
 	/**
@@ -354,12 +365,37 @@ public class EvaluationService {
 	 * binary search is a dichotomic divide and conquer search algorithm.
 	 * 
 	 */
-	static class BinarySearch<T> {
+	static class BinarySearch<T extends Comparable<T>>{
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
 			// TODO Write an implementation for this method declaration
-			return 0;
+			int head =0;
+			
+			int tail = sortedList.size()-1;
+			
+			
+			while(head<=tail)
+			{
+				int midpoint = (head + tail)/2;
+				T list = sortedList.get(midpoint);
+				if(list.equals(t))
+				{
+					return midpoint;
+				}
+				int compare = t.compareTo(list);
+				if(compare < 0)
+				{
+					tail =midpoint - 1;
+					
+				}
+				else if(compare>0)
+				{
+					head = midpoint+1;
+				}
+			}
+		
+			return -1;
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -397,6 +433,13 @@ public class EvaluationService {
 	 */
 	public String toPigLatin(String string) {
 		// TODO Write an implementation for this method declaration
+		char [] c = string.toCharArray();
+		/*
+		 * static boolean vowel(char v) {
+		 * 
+		 * (v=='a'|| v=='e'||v=='i'|| v=='o' || v=='u'); }
+		 */
+					
 		return null;
 	}
 
@@ -417,6 +460,18 @@ public class EvaluationService {
 	 */
 	public boolean isArmstrongNumber(int input) {
 		// TODO Write an implementation for this method declaration
+		int num,sum=0;
+		int curr = input;
+		while(input>0)
+		{
+			num =input%10;
+			input =input/10;
+			sum =sum+(num*num*num);
+			
+			
+		}
+		if(curr==sum)
+			return true;
 		return false;
 	}
 
@@ -432,7 +487,26 @@ public class EvaluationService {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		List<Long> result = new ArrayList<Long>();
+		
+		long e =2;
+		while(e <= l)
+		{
+			if(l%e ==0) 
+			{
+				result.add(e);
+				l  /= e;
+			}
+			else 
+			{
+				e++;
+			}
+		
+			
+		}
+		
+			
+		return result;
 	}
 
 	/**
@@ -471,6 +545,14 @@ public class EvaluationService {
 
 		public String rotate(String string) {
 			// TODO Write an implementation for this method declaration
+			char [] chars = string.toCharArray();
+			String string1,string2;
+			//string1 =string1.length();
+			for(int i=0;i<=string.length();i++)
+			{
+				//string1 = string1.charAt(this.key);
+			}
+			
 			return null;
 		}
 
@@ -490,7 +572,43 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int max =i;
+		
+		 List <Integer> result = new ArrayList<Integer>();
+		boolean [] prime = new boolean[max];
+		if(i==0)
+			throw new IllegalArgumentException();
+		if(i==1)
+			return 2;
+		
+		for (int j=0;j<i;j++)
+		{
+			prime[j] = true;
+			
+		}
+		for(int a=2; a*a< max;a++)
+		{
+			if(prime[a]==true)
+			{
+				for(int b=a*a;b<max;b=b+a)
+				{
+					prime[b]= false;
+					
+				}
+				
+			}
+			for(int p=2;p<i;p++)
+			{
+				if(prime[p]==true)
+					result.add(p);
+				
+				
+			}
+			
+		}
+		
+		
+		return result.get(i);
 	}
 
 	/**
@@ -527,7 +645,19 @@ public class EvaluationService {
 		 */
 		public static String encode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			String token = "";
+			for(char c:string.toCharArray())
+			{
+				if(Character.isLetter(c))
+				{
+					token +=(char)('a'+('z'-c));
+				}
+				else
+				{
+					token +=c;
+				}
+			}
+			return token;
 		}
 
 		/**
@@ -566,7 +696,38 @@ public class EvaluationService {
 	 */
 	public boolean isValidIsbn(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		String delimiter = "[ ]";
+		String[] token = string.split(delimiter);
+		String output ="";
+		
+		for(String s:token)
+		{
+			output +=s;
+		}
+		if(output.length()!=10)
+			return false;
+		int sum =0;
+		
+		for(int i=0;i<9;i++)
+		{
+			int val=output.charAt(i)-'0';
+			if(val<0||val>9)
+			{
+				return false;
+				
+			}
+			sum =sum+(val*(10-i));
+			
+		}
+		char last = output.charAt(9);
+		if(last != 'X' && (last<'0'||last>'9'))
+			return false;
+		
+		sum+= ((last=='X')?10: (last- '0'));
+		
+		
+			
+		return (sum%11==0);
 	}
 
 	/**
@@ -623,6 +784,7 @@ public class EvaluationService {
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
 		
+		//given.plus(1000000000)
 		return null;
 	}
 
@@ -714,8 +876,30 @@ public class EvaluationService {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
+		String delimiter = "[ ]";
+		int val1,val2;
 		
-		return 0;
+		int result=0;
+		String [] tokens = string.split(delimiter);
+		//for(String c:tokens)
+		if(string.contains("plus"))
+		{
+			val1 = Integer.valueOf(tokens[2]);
+			val2 = Integer.valueOf(tokens[4]);
+			
+			result += val1 - val2;
+			
+		}
+		 if(string.contains("minus"))
+		{
+			val1 = Integer.valueOf(tokens[2]);
+			val2 = Integer.valueOf(tokens[4]);
+			
+			result += val1 - val2;
+			
+		}
+		
+		return result;
 	}
 
 }
