@@ -11,6 +11,8 @@ import java.util.Map;
 import java.math.*;
 public class EvaluationService {
 
+	
+
 	/**
 	 * 1. Without using the StringBuilder or StringBuffer class, write a method that
 	 * reverses a String. Example: reverse("example"); -> "elpmaxe"
@@ -142,118 +144,92 @@ public class EvaluationService {
 	 * @param string
 	 * @return
 	 */
-	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		String upper = string.toUpperCase();
-		int score=0;
-		char [] batch1Array = {'A','E', 'I', 'O', 'U', 'L', 'N', 'R', 'S', 'T'};
-		String batch1 = "AEIOULNRST";
-		char [] batch2Array = {'D', 'G'};
-		char [] batch3Array= {'C','M', 'P'};
-		char [] batch4Array = {'F', 'H', 'V', 'W', 'Y'};
-		String batch4 = "FHVWY";
-		char [] batch5Array = {'K'};
-		char [] batch8Array = {'J','X'};
-		char [] batch10Array = {'Q','Z'};
-		String batch10 ="QZ";
-		
-		for(int i =0;i<string.length();i++)
+	int getScore(char value)
+	{
+		switch(value)
 		{
-			for (int j =0;j<batch1.length();j++)
-			{
-				if(upper.charAt(i)== batch1.charAt(j))
-				{
-					j++;
-					score+=1;
-				}
-				else {
-					j++;
-				}
+			case'D':
+			case'G': 
+				return 2;
 				
-			}                             
+			case'B':
+			case'C': 
+			case'M':
+			case'P':	
+				
+				return 3;
+				
+			case 'F':
+			case'H':
+			case'V': 
+			case'W':
+			case'Y':
+				return 4;
+			case 'K':
+				return 5;
+				
+			case'J':
+			case'X':
+				return 8;
+				
+			case'Q':
+			case'Z':
+				return 10;	
 			
-			for (int j =0;j<batch2Array.length;j++)
-			{
-				if(upper.charAt(i)== batch2Array[j])
-				{
-					j++;
-					score+=2;
-				}
-				else {
-					j++;
-				}
-				
-			}
-			for (int j =0;j<batch3Array.length;j++)
-			{
-				if(upper.charAt(i)== batch3Array[j])
-				{
-					j++;
-					score+=3;
-				}
-				else {
-					j++;
-				}
-				
-			}
-			for (int j =0;j<batch4Array.length;j++)
-			{
-				if(upper.charAt(i)== batch4.charAt(j))
-				{
-					j++;
-					score+=4;
-				}
-				else {
-					j++;
-				}
-				
-			}
-			for (int j =0;j<batch5Array.length;j++)
-			{
-				if(upper.charAt(i)== batch5Array[j])
-				{
-					j++;
-					score+=5;
-				}
-				else {
-					j++;
-				}
-				
-			}
-			
-			for (int j =0;j<batch8Array.length;j++)
-			{
-				if(upper.charAt(i)== batch8Array[j])
-				{
-					j++;
-					score+=8;
-				}
-				else {
-					j++;
-				}
-				
-			}
-			for (int j =0;j<batch10.length();j++)
-			{
-				if(upper.charAt(i)== batch10.charAt(j))
-				{
-					j++;
-					score+=10;
-				}
-				else {
-					j++;
-				}
-				
-			}
-			i++;
-			
+			default:
+				return 1;
 		}
 		
 		
-		
-		
-		return score;
 	}
+	public int getScrabbleScore(String string) {
+		// TODO Write an implementation for this method declaration
+		String delimiter = "[ ]";
+		int scrabbbleScore=0;
+	
+		string = string.toUpperCase();
+		
+		
+		char [] letter = string.toCharArray();
+		for (Character c: letter)
+		{
+			scrabbbleScore += getScore(c);
+				
+		}
+			
+		
+		/*
+		 * String [] token = string.split(delimiter); StringBuilder sb = new
+		 * StringBuilder();
+		 * 
+		 * 
+		 * for(String s:token) {
+		 * //if(batch1.matches("A|E|I|O|U|L|N|R|S|T|a|e|i|o|u|l|n|r|s|t")) String batch1
+		 * = sb.substring(0,string.length()-1); String batch2 =
+		 * sb.substring(0,string.length()-1); String batch3 =
+		 * sb.substring(0,string.length()-1); String batch4 =
+		 * sb.substring(0,string.length()-1); String batch5 =
+		 * sb.substring(0,string.length()-1); String batch8 =
+		 * sb.substring(0,string.length()-1); String batch10 =
+		 * sb.substring(0,string.length()-1);
+		 * 
+		 * 
+		 * if(batch1.matches("[AEIOULNRSTaeioulnrst]")) { scrabbbleScore+=1;
+		 * //string.charAt(i); } else if(batch2.matches("D|G|d|g")) { scrabbbleScore+=2;
+		 * } else if(batch3.matches("B|C|M|P|b|c|m|p")) { scrabbbleScore+=3; } else
+		 * if(batch4.matches("F|H|V|W|Y|f|h|v|w|y")) { scrabbbleScore+=4; } else
+		 * if(batch5.matches("[Kk]")) { scrabbbleScore+=5; } else
+		 * if(batch8.matches("J|X|j|x")) { scrabbbleScore+=8; } else
+		 * if(batch10.matches("Q|Z|q|z")) { scrabbbleScore+=10; }
+		 * 
+		 * 
+		 * }
+		 */
+
+		
+		return scrabbbleScore;
+	}
+	
 
 	/**
 	 * 5. Clean up user-entered phone numbers so that they can be sent SMS messages.
